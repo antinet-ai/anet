@@ -47,7 +47,7 @@ bash install.sh --archive anet-<n>-<platform>.tar.gz --bundle anet-<n>-<platform
 | Language | Install | Import |
 |---|---|---|
 | Python | `pip install antinet` | `import anet` |
-| Node | `npm install anet` | `import { connect } from "anet"` |
+| Node | `npm install antinet` | `import { connect } from "antinet"` |
 | .NET | `dotnet add package Antinet` | `using Anet;` |
 | Rust | `cargo add anet-client` | `use anet_client;` |
 | C and C++ | in each release: `anet_client.h`, `anet_client.hpp` and the library | |
