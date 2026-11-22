@@ -2,7 +2,7 @@
 
 anet is Antinet's engine: edge AI and ML infrastructure that runs language models, decision models and time-series models on machines a site owns, with nothing sent off the machine. It runs as a local service with OpenAI- and Anthropic-compatible APIs.
 
-**These releases are previews.** They run on Linux (x86-64, arm64) with glibc 2.34 or later (RHEL 9, Debian 12, Ubuntu 22.04 and later) and macOS (Apple silicon). Windows, the vision tier and signed model bundles come later.
+**These releases are previews.** They run on Linux (x86-64, arm64) with glibc 2.34 or later (RHEL 9, Debian 12, Ubuntu 22.04 and later) and macOS (Apple silicon). Windows and the vision tier come later.
 
 This repository holds the signed releases and the install script only.
 
@@ -43,6 +43,18 @@ Carry them in, then:
 ```bash
 bash install.sh --archive anet-<n>-<platform>.tar.gz --bundle anet-<n>-<platform>.tar.gz.sigstore.json --trusted-root trusted_root.json
 ```
+
+## Models
+
+From release 2, each release page also carries signed models: `anet-models-<n>-inference-runtime-<platform>.tar.gz` (the OpenVINO runtime decision models run on), `anet-models-<n>-sensor-pattern.tar.gz` and `anet-models-<n>-object-detection.tar.gz`. They are signed with the models key, `antinet-models-key.json` on the same page, and checked like an archive (`sha256sum -c`, `cosign verify-blob`). A site trusts them only when it names the key; then an Engineer imports each one into the running service:
+
+```bash
+anet serve --vendor-keys antinet-models-key.json=inference-runtime,sensor-pattern,object-detection
+tar -xzf anet-models-<n>-sensor-pattern.tar.gz
+anet import anet-models-<n>-sensor-pattern --as <engineer>
+```
+
+The Linux runtime needs glibc 2.35 or later. `anet-sign-<n>-<platform>.tar.gz` holds `anet-sign`, for signing your own models.
 
 ## SDKs
 
